@@ -1,0 +1,233 @@
+ce que consulter_solde doit faire:
+    """
+        Retourne un message clair sur le solde du compte.
+        - Si solde > 0 : montant disponible
+        - Si solde = 0 : solde nul
+        - Si solde < 0 : montant dû (crédit)
+        """
+details sur utilisation du programme
+
+
+
+_________________________________
+
+
+import os
+import ollama
+
+# Dossier où seront sauvegardés les fichiers de routines
+ROUTINES_DIR = "routines"
+os.makedirs(ROUTINES_DIR, exist_ok=True)
+
+# Serveur Ollama
+OLLAMA_HOST = "http://127.0.0.1:11434"
+os.environ["OLLAMA_HOST"] = OLLAMA_HOST
+
+# -----------------------------
+# Instructions générales / prompts
+# -----------------------------
+prompts = {
+    "calcul_moyenne": "Écris une fonction Python qui calcule la moyenne d'une liste de nombres, avec gestion des erreurs.",
+    "tri_bulle": "Écris une fonction Python pour trier une liste avec l'algorithme du tri à bulles.",
+    "fibonacci": "Écris une fonction Python qui renvoie les n premiers nombres de Fibonacci.",
+    "lecture_csv": "Écris une fonction Python pour lire un fichier CSV et retourner une liste de dictionnaires.",
+    "sauvegarde_json": "Écris une fonction Python pour sauvegarder un dictionnaire dans un fichier JSON."
+}
+
+# -----------------------------
+# Boucle pour générer les fichiers
+# -----------------------------
+for filename, prompt in prompts.items():
+    # Envoi du prompt à LLaMA
+    response = ollama.chat(
+        model="llama3:latest",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    code = response['message']['content']
+
+    # Nettoyage rapide pour retirer les ``` si LLaMA les ajoute
+    if code.startswith("```") and code.endswith("```"):
+        code = "\n".join(code.strip("```").split("\n")[1:])
+
+    # Chemin complet du fichier
+    file_path = os.path.join(ROUTINES_DIR, f"{filename}.py")
+
+    # Sauvegarde du code dans le fichier
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(code)
+
+    print(f"[✓] Routine '{filename}' générée et sauvegardée dans {file_path}")
+
+print("\nToutes les routines ont été générées automatiquement ✅")
+🔹 Points forts de ce script
+Flexible : tu peux ajouter autant de prompts que tu veux dans le dictionnaire prompts.
+
+Fichiers séparés : chaque routine est dans son propre fichier .py.
+
+Facile à enrichir : tu peux ajouter des prompts fréquents pour ton workflow, comme connexion_bdd, graphique_matplotlib, envoi_email, etc.
+
+Réutilisable : tu peux relancer le script autant de fois pour générer de nouvelles routines.
+
+💡 Astuce avancée
+
+On peut ajouter une fonction qui prend un prompt général et demande à LLaMA de générer plusieurs fonctions dans un projet, puis sépare automatiquement chaque fonction dans un fichier distinct.
+
+Cela te permettrait de créer un projet complet avec 10–20 routines à partir d’une seule instruction en langage naturel.
+
+Si tu veux, je peux te coder cette version ultime qui génère un projet complet automatiquement à partir d’un seul prompt.
+
+Veux que je fasse ça ?
+
+Vous avez dit :
+détaille trés bien le code ,apprend moi au faits ces structures et surtotu dis moi le contenu de conteneur routine
+ChatGPT a dit :
+Parfait Fénelon 😎 ! On va décortiquer en détail le script que je t’ai donné pour générer automatiquement des fichiers de routines avec Ollama. Je vais t’expliquer chaque structure, le rôle de chaque variable, et ce que contient le dossier routines après exécution.
+
+🔹 Analyse détaillée du code
+1️⃣ Import des modules
+import os
+import ollama
+os : module standard de Python pour interagir avec le système de fichiers (créer dossiers, écrire dans des fichiers, construire des chemins).
+
+ollama : module Python pour communiquer avec ton serveur Ollama local et envoyer des prompts aux modèles LLaMA.
+
+2️⃣ Dossier de sauvegarde
+ROUTINES_DIR = "routines"
+os.makedirs(ROUTINES_DIR, exist_ok=True)
+ROUTINES_DIR : variable qui contient le nom du dossier où les routines seront stockées.
+
+os.makedirs(..., exist_ok=True) : crée le dossier s’il n’existe pas encore.
+
+exist_ok=True → évite les erreurs si le dossier existe déjà.
+
+Donc après exécution, tu auras un dossier routines dans ton répertoire courant.
+
+3️⃣ Configuration du serveur Ollama
+OLLAMA_HOST = "http://127.0.0.1:11434"
+os.environ["OLLAMA_HOST"] = OLLAMA_HOST
+On définit l’adresse du serveur Ollama : localhost (127.0.0.1) sur le port 11434.
+
+On modifie la variable d’environnement pour que le module ollama sache où envoyer les prompts.
+
+💡 Important : il faut que le serveur Ollama soit déjà actif (ollama serve).
+
+4️⃣ Définition des prompts / instructions
+prompts = {
+    "calcul_moyenne": "Écris une fonction Python qui calcule la moyenne d'une liste de nombres, avec gestion des erreurs.",
+    "tri_bulle": "Écris une fonction Python pour trier une liste avec l'algorithme du tri à bulles.",
+    "fibonacci": "Écris une fonction Python qui renvoie les n premiers nombres de Fibonacci.",
+    "lecture_csv": "Écris une fonction Python pour lire un fichier CSV et retourner une liste de dictionnaires.",
+    "sauvegarde_json": "Écris une fonction Python pour sauvegarder un dictionnaire dans un fichier JSON."
+}
+prompts est un dictionnaire Python (dict) :
+
+clé → le nom du fichier à créer (calcul_moyenne.py, tri_bulle.py, etc.)
+
+valeur → le prompt envoyé à LLaMA pour générer le code.
+
+💡 Astuce : tu peux ajouter autant de routines que tu veux ici.
+
+5️⃣ Boucle pour générer les fichiers
+for filename, prompt in prompts.items():
+prompts.items() renvoie une liste de paires (clé, valeur) du dictionnaire.
+
+filename = nom du fichier, prompt = instruction pour générer le code.
+
+Exemple pour le premier élément :
+
+filename = "calcul_moyenne"
+
+prompt = "Écris une fonction Python qui calcule la moyenne d'une liste de nombres, avec gestion des erreurs."
+
+6️⃣ Envoi du prompt à Ollama
+response = ollama.chat(
+    model="llama3:latest",
+    messages=[{"role": "user", "content": prompt}]
+)
+ollama.chat : envoie un message à LLaMA.
+
+model="llama3:latest" : modèle que tu veux utiliser.
+
+messages=[{"role": "user", "content": prompt}] : format attendu par LLaMA :
+
+role → qui parle (user = toi, system = instructions globales, assistant = modèle).
+
+content → le texte réel que tu envoies.
+
+💡 Résultat : response est un dictionnaire Python contenant la réponse du modèle.
+
+7️⃣ Récupération du code
+code = response['message']['content']
+On prend la clé ['message']['content'] du dictionnaire de réponse → c’est le code Python généré par LLaMA.
+
+Nettoyage des balises Markdown (si LLaMA ajoute ```python) :
+
+if code.startswith("```") and code.endswith("```"):
+    code = "\n".join(code.strip("```").split("\n")[1:])
+On supprime les ``` et éventuellement python en début de bloc.
+
+8️⃣ Construction du chemin complet du fichier
+file_path = os.path.join(ROUTINES_DIR, f"{filename}.py")
+Combine le dossier routines + le nom du fichier + l’extension .py.
+
+Exemple :
+
+routines/calcul_moyenne.py
+9️⃣ Sauvegarde du code dans le fichier
+with open(file_path, "w", encoding="utf-8") as f:
+    f.write(code)
+Ouvre le fichier en mode écriture (w).
+
+Écrit le code généré par LLaMA dedans.
+
+encoding="utf-8" → supporte tous les caractères.
+
+💡 À la fin, chaque routine est un fichier Python prêt à être importé.
+
+10️⃣ Message de confirmation
+print(f"[✓] Routine '{filename}' générée et sauvegardée dans {file_path}")
+Affiche une confirmation pour chaque fichier généré.
+
+11️⃣ Résultat final
+Après exécution du script :
+
+Le dossier routines contient :
+
+routines/
+├── calcul_moyenne.py
+├── tri_bulle.py
+├── fibonacci.py
+├── lecture_csv.py
+└── sauvegarde_json.py
+Chaque fichier contient une fonction Python générée automatiquement selon le prompt correspondant.
+
+Exemple dans calcul_moyenne.py :
+
+def calcul_moyenne(liste):
+    if not liste:
+        return 0
+    return sum(liste)/len(liste)
+🔹 Conteneur routines
+C’est un dossier (ROUTINES_DIR) qui contient tous les fichiers .py générés automatiquement.
+
+Chaque fichier est indépendant → tu peux faire :
+
+from routines.calcul_moyenne import calcul_moyenne
+Tu peux réutiliser ces routines dans n’importe quel projet.
+
+🔹 Extensions possibles
+Générer plusieurs fonctions dans un seul fichier si prompt global.
+
+Ajouter automatiquement des imports et docstrings.
+
+Générer des fichiers pour tests unitaires (test_*.py) pour chaque routine.
+
+Sauvegarder les réponses de LLaMA dans un fichier JSON pour versionner les routines.
+
+💡 Astuce finale
+
+Tu peux faire un script maître qui prend un prompt général, demande à LLaMA de générer plusieurs fonctions et crée automatiquement un projet complet avec dossier routines + fichiers de tests + main.py.
+
+Si tu veux, je peux te coder cette version ultime pour que tu tapes une seule instruction en langage naturel et que tout le projet soit généré automatiquement.
+*********

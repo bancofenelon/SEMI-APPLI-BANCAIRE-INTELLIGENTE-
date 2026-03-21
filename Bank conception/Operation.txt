@@ -1,0 +1,10 @@
+ identifiant interne (UUID) ; Prénom ; Nom ; Nature ; Montant ; Date
+ 2186c3fd-4ab9-4c93-9876-3e0608f9a559 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:36:30  
+ 2da1e2fd-b10e-48db-8e5d-35a7dde7855f , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:44:42  
+ 4b83b998-85db-46be-9ea4-70abe43c78c5 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:44:59  
+ eca3d979-93ad-43db-a3c0-98a57d177798 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:46:28  
+ 02b54e28-9196-4d5c-abdf-75da914dc288 , Kiki , Godwin , Dépôt  ,200000 , 2025-10-17  14:46:28  
+ fcf79bac-8948-4049-94e0-2e1fcacced30 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:49:01  
+ f92bdf38-f4b6-4314-b79c-784a643821c9 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-17  14:49:35  
+ 069caaf6-bc85-4c52-b507-5bdae6690878 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-19  17:57:53  
+ abd005d5-8600-4806-a525-409522a370e1 , Kpoviessi , Pascal , Dépôt  ,10000000 , 2025-10-19  18:01:06  
