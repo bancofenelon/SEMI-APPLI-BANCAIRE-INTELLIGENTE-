@@ -10,8 +10,8 @@ Python : Paradigme de POO
 
 ## Utilisation
 Interface avec tkinter qui permet a travers de différents bouttons et widgets 
-permettent naviguer avec les fonctionnalités du projet,
-\n
+permettent naviguer avec les fonctionnalités du système.
+#
 Projet entièrement open source : Télécharger gratuitement 
 et deployer sur votre IDE
 
