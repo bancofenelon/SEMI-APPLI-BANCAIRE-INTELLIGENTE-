@@ -1,4 +1,4 @@
-# Semi appli bancaire 
+# Semi appli  bancaire 
 
 ## Description
 Ce projet utilise des techniques de programmation et d'algorithmique  pour éffectuer
